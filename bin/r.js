@@ -16,6 +16,8 @@
 console: false, java: false, module: false */
 
 var requirejs, require, define;
+const fs = require('fs');
+
 (function (console, args, readFileFunc) {
 
     var fileName, env, fs, vm, path, exec, rhinoContext, dir, nodeRequire,
@@ -88,7 +90,7 @@ var requirejs, require, define;
         };
 
         exists = function (fileName) {
-            return path.existsSync(fileName);
+            return fs.existsSync(fileName);
         };
 
 
@@ -2218,7 +2220,7 @@ var requirejs, require, define;
         context.loaded[moduleName] = false;
         context.scriptCount += 1;
 
-        if (path.existsSync(url)) {
+        if (fs.existsSync(url)) {
             contents = fs.readFileSync(url, 'utf8');
 
             contents = req.makeNodeWrapper(contents);

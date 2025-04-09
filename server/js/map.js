@@ -12,18 +12,23 @@ module.exports = Map = cls.Class.extend({
     
     	this.isLoaded = false;
     
-    	path.exists(filepath, function(exists) {
-            if(!exists) {
+    	fs.access(filepath, fs.constants.F_OK, function(err) {
+            if (err) {
                 log.error(filepath + " doesn't exist.");
                 return;
             }
         
             fs.readFile(filepath, function(err, file) {
+                if (err) {
+                    log.error("Error reading file: " + err.message);
+                    return;
+                }
+        
                 var json = JSON.parse(file.toString());
-            
                 self.initMap(json);
             });
         });
+        
     },
 
     initMap: function(map) {
@@ -92,7 +97,7 @@ module.exports = Map = cls.Class.extend({
                     tileIndex += 1;
                 }
             }
-            //log.info("Collision grid generated.");
+            //console.log("Collision grid generated.");
         }
     },
 
